@@ -1,33 +1,3 @@
 # ccfun-ex4
 
-#!/bin/bash
-
-file_date=$(date -r test +"%Y%m%d%H%M")
-date=$(date +"%Y%m%d%H%M")
-
-# path to the directory 
-path=/Users/theresa/Documents/Theresa/UH/CCFUN/test/*
-
-d=`date +%Y-%m-%d-%H-%M`
-aws s3 cp test s3://datasetexercise42/backup/$d --recursive
-
-while [ true ] ; do
-
-old_date=$date
-date=$(date +"%Y%m%d%H%M")
-d=`date +%Y-%m-%d-%H-%M`
-
-for filename in $path; do
-file_date=$(date -r $filename +"%Y%m%d%H%M")
-
-if [ $old_date -le $file_date ];
-then
-# path to s3 bucket
-aws s3 cp $filename s3://datasetexercise42/backup/$d/$(basename $filename)
-fi
-
-done
-
-echo "sleep one minute" 
-sleep 60s
-done
+when starting the script all files in the directionary are uploaded to a folder in the bucket. Backup folders are always labelled with the current date and time. Then every minute the script checks if files were changed in the past minute and uploads all the changed files into a new s3 folder which is again labeled with the time of the upload. After uploading the changed files the program sleeps for one minute. The waiting time can be changed but the minimum is one minute because two uploads in one minute cannot be distinguished and will be loaded into the same s3 folder. However, this can be changed by including the upload second in the folder label.
