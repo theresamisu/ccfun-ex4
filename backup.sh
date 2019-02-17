@@ -1,7 +1,5 @@
 #!/bin/bash
 
-file_date=$(date -r test +"%Y%m%d%H%M")
-date=$(date +"%Y%m%d%H%M")
 
 # path to the directory 
 path=/Users/theresa/Documents/Theresa/UH/CCFUN/test/*
@@ -9,6 +7,7 @@ path=/Users/theresa/Documents/Theresa/UH/CCFUN/test/*
 d=`date +%Y-%m-%d-%H-%M`
 aws s3 cp test s3://datasetexercise42/backup/$d --recursive
 
+date=$(date +"%Y%m%d%H%M")
 while [ true ] ; do
 
 old_date=$date
